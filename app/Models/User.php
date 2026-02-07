@@ -2,20 +2,27 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
-class Book extends Model
+class User extends Authenticatable
 {
-    use HasFactory;
+    use Notifiable;
 
     protected $fillable = [
-        'title',
-        'author',
-        'description',
-        'price',
-        'quantity',
-        'category',
-        'cover_image'
+        'name', 'email', 'password', 'role'
     ];
+
+    protected $hidden = [
+        'password', 'remember_token',
+    ];
+
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+    ];
+
+    public function isAdmin()
+    {
+        return $this->role === 'admin';
+    }
 }
