@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Book;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
 class BookController extends Controller
 {
@@ -22,10 +24,9 @@ class BookController extends Controller
     public function adminIndex()
     {
         // Only allow admins
-        if (!auth()->user()->isAdmin()) {
-            return redirect('/books')->with('error', 'Unauthorized access');
+        if (!Auth::check() || !Auth::user()->isAdmin()) {
+            return redirect()->route('books.index')->with('error', 'Unauthorized access');
         }
-        
         $books = Book::all();
         return view('books.admin.index', compact('books'));
     }
@@ -36,8 +37,8 @@ class BookController extends Controller
     public function create()
     {
         // Only allow admins
-        if (!auth()->user()->isAdmin()) {
-            return redirect('/books')->with('error', 'Unauthorized access');
+        if (!Auth::check() || !Auth::user()->isAdmin()) {
+            return redirect()->route('books.index')->with('error', 'Unauthorized access');
         }
         
         return view('books.admin.create');
@@ -49,7 +50,7 @@ class BookController extends Controller
     public function store(Request $request)
     {
         // Only allow admins
-        if (!auth()->user()->isAdmin()) {
+        if (!Auth::check() || !Auth::user()->isAdmin()) {
             return redirect('/books')->with('error', 'Unauthorized access');
         }
 
@@ -90,7 +91,7 @@ class BookController extends Controller
     public function edit(Book $book)
     {
         // Only allow admins
-        if (!auth()->user()->isAdmin()) {
+        if (!Auth::check() || !Auth::user()->isAdmin()) {
             return redirect('/books')->with('error', 'Unauthorized access');
         }
         
@@ -103,8 +104,8 @@ class BookController extends Controller
     public function update(Request $request, Book $book)
     {
         // Only allow admins
-        if (!auth()->user()->isAdmin()) {
-            return redirect('/books')->with('error', 'Unauthorized access');
+        if (!Auth::check() || !Auth::user()->isAdmin()) {
+            return redirect()->route('books.index')->with('error', 'Unauthorized access');
         }
 
         $request->validate([
@@ -144,8 +145,8 @@ class BookController extends Controller
     public function destroy(Book $book)
     {
         // Only allow admins
-        if (!auth()->user()->isAdmin()) {
-            return redirect('/books')->with('error', 'Unauthorized access');
+        if (!Auth::check() || !Auth::user()->isAdmin()) {
+            return redirect()->route('books.index')->with('error', 'Unauthorized access');
         }
 
         // Delete image if exists

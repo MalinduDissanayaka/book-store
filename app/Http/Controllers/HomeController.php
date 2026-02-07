@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
 class HomeController extends Controller
 {
     /**
@@ -19,7 +19,7 @@ class HomeController extends Controller
      */
     public function redirect()
     {
-        if (auth()->user()->isAdmin()) {
+        if (!Auth::check() || !Auth::user()->isAdmin()) {
             return redirect()->route('books.admin.index');
         }
         return redirect()->route('books.index');
