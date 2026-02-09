@@ -16,14 +16,14 @@
 
                     @auth
                         <h4>Welcome to BookStore!</h4>
-                        <p>You are logged in as
+                        <p>You are logged in as 
                             <strong>
                                 @if(auth()->user()->role == 'admin')
                                     Administrator
                                 @elseif(auth()->user()->role == 'user')
                                     Regular User
                                 @else
-                                    User (Role not set)
+                                    User
                                 @endif
                             </strong>
                         </p>
@@ -36,7 +36,7 @@
                         </div>
                     @else
                         <h4>Welcome to BookStore!</h4>
-                        <p>Please <a href="{{ route('login') }}">login</a> or <a href="{{ route('register') }}">register</a> to continue.</p>
+                        <p>Please login or register to continue.</p>
                         <div class="mt-4">
                             <a href="{{ route('login') }}" class="btn btn-primary">Login</a>
                             <a href="{{ route('register') }}" class="btn btn-success">Register</a>
